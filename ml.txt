@@ -1,0 +1,62 @@
+10 rem ml assistant
+90 print "ml assistant"
+100 print "d)ec2hex h)ex2dec e)xamine"
+130 get c$
+135 if c$="" then goto 130
+140 if c$="d" then gosub 1000
+150 if c$="h" then gosub 2000
+160 if c$="e" then gosub 3000
+170 if c$="r" then gosub 10000
+180 if c$="q" then end
+290 goto 100
+1000 rem decimal to hex command
+1010 input in
+1020 gosub 1100
+1030 print " $";out$
+1040 return
+1100 rem decimal to hex subroutine
+1110 rem in=input out$=output
+1120 rem t*=temp vars
+1130 out$="":t0=in
+1140 t1=(t0/16-int(t0/16))*16
+1145 t0=int(t0/16)
+1150 if t1 > 9 then t1=t1+7
+1160 out$=chr$(t1+48)+out$
+1170 if t0>0 then goto 1140
+1190 return
+2000 rem hex to decimal command
+2010 input in$
+2020 gosub 2100
+2030 print " ";out
+2040 return
+2100 rem hex to decimal subroutine
+2110 rem in$=input out=output
+2120 rem t*=temp vars
+2130 out=0
+2140 for t0=1 to len(in$)
+2150 out=out*16
+2160 t1=asc(mid$(in$,t0,1))
+2170 if t1<48 or t1>70 then print "err":return
+2180 if t1>58 and t1<65 then print "err":return
+2190 if t1<58 then out=out+t1-48
+2200 if t1>=65 then out=out+t1-65+10
+2210 next t0
+2220 return
+3000 rem examine memory command
+3010 input "hexaddr";in$
+3020 gosub 2100
+3030 for i=out to out+8
+3040 in=peek(i)
+3050 gosub 1100
+3055 print " ";
+3060 if len(out$)<2 then print "0";
+3070 print out$;
+3080 next i
+3090 print:return
+10000 rem show current disk error
+10010 rem use when you see green blinking light on drive
+10020 open 15,8,15
+10030 input# 15,en,en$,et,es
+10035 close 15
+10040 print "err";en;en$;"t/s";et;es
+10060 return
