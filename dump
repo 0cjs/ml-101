@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+#  dump - Copy a C64 BASIC program from a disk image to a text file
+#
+#  Assumes you have the `c1541` and `tok64` programs in your path.
+#
+set -e -o pipefail
+
+die() { local errcode=$1; shift; echo 1>&2 "$@"; exit $errcode; }
+
+[[ $1 ]] || die 2 "Usage: $0 PROGNAME"
+
+tmpdir=$(mktemp -d ml101dump.XXXXX)
+trap "rm -rf $tmpdir" 0
+
+c1541 ml-101.d64 -read "$1" "$tmpdir/$1.prg"
+( cd "$tmpdir" && tok64 /totxt "$1.prg"; )
+cp "$tmpdir/$1.txt" ./
