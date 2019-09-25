@@ -76,6 +76,23 @@
 3070 print out$;
 3080 next ei
 3090 print:return
+4000 rem deposit
+4010 rem d*=temp vars
+4020 input "$addr";in$:gosub 2100:da=out
+4030 print "enter to skip, . to exit"
+4100 in=da:gosub 1100:rem addr to hex
+4110 print out$;":";
+4120 in=peek(da):gosub 1100:rem value to hex
+4130 print out$;
+4135 in$=""
+4140 input " $";in$
+4145 if in$="" then goto 4200
+4150 if in$="." then return
+4160 gosub 2100:rem new value to decimal
+4170 poke da,out
+4200 da=da+1
+4210 goto 4100
+4999 return
 10000 rem show current disk error
 10010 rem use when you see green blinking light on drive
 10020 open 15,8,15
