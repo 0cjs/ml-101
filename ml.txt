@@ -1,16 +1,36 @@
-10 rem ml assistant
-90 print "ml assistant"
-100 print "d)ec2hex h)ex2dec e)xamine"
-130 get c$
-135 if c$="" then goto 130
-140 if c$="d" then gosub 1000
-150 if c$="h" then gosub 2000
-160 if c$="e" then gosub 3000
-170 if c$="r" then gosub 10000
-180 if c$="q" then end
-290 goto 100
+10 rem ml assistant by cjs 2019-09
+90 gosub 800
+100 rem command list
+110 cs$="9fedgpq?"
+120 print cs$+"{reverse on}>{reverse off} ";
+200 get c$
+210 if c$="" then goto 200
+220 print c$;" ";
+230 found=0
+240 for i=1 to len(cs$)
+250 if c$=mid$(cs$,i,1) then found=1
+260 next i
+270 if found=0 then print "{reverse on}err{reverse off}":goto 100
+300 if c$="9" then gosub 1000
+310 if c$="f" then gosub 2000
+320 if c$="e" then gosub 3000
+330 if c$="d" then gosub 4000
+340 if c$="g" then gosub 5000
+350 if c$="p" then print:gosub 10000
+360 if c$="q" then end
+370 if c$="?" then print:gosub 800
+399 goto 100
+800 rem menu/help text
+810 print "----------------------------------------";
+820 print "****** machine language assistant ******";
+830 print "  hex input requests marked with '$'."
+840 print "9) decimal-> hex    f) hex->decimal"
+850 print "e) examine 16 bytes d) deposit"
+860 print "g) goto (sys){space*7}p) print err status"
+870 print "q) quit{space*13}?) print this menu"
+899 return
 1000 rem decimal to hex command
-1010 input in
+1010 print "dec";:input in
 1020 gosub 1100
 1030 print " $";out$
 1040 return
@@ -25,7 +45,7 @@
 1170 if t0>0 then goto 1140
 1190 return
 2000 rem hex to decimal command
-2010 input in$
+2010 print "$hex";:input in$
 2020 gosub 2100
 2030 print " ";out
 2040 return
@@ -43,7 +63,7 @@
 2210 next t0
 2220 return
 3000 rem examine memory command
-3010 input "hexaddr";in$
+3010 input "$addr";in$
 3020 gosub 2100
 3030 for i=out to out+8
 3040 in=peek(i)
