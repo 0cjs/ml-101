@@ -47,6 +47,7 @@
 2000 rem hex to decimal command
 2010 print "$hex";:input in$
 2020 gosub 2100
+2025 if out<0 then return
 2030 print " ";out
 2040 return
 2100 rem hex to decimal subroutine
@@ -56,8 +57,8 @@
 2140 for t0=1 to len(in$)
 2150 out=out*16
 2160 t1=asc(mid$(in$,t0,1))
-2170 if t1<48 or t1>70 then print "err":return
-2180 if t1>58 and t1<65 then print "err":return
+2170 if t1<48 or t1>70 then print "{reverse on}err{reverse off}":out=-1:return
+2180 if t1>58 and t1<65 then print "err":out=-1:return
 2190 if t1<58 then out=out+t1-48
 2200 if t1>=65 then out=out+t1-65+10
 2210 next t0
@@ -89,10 +90,15 @@
 4145 if in$="" then goto 4200
 4150 if in$="." then return
 4160 gosub 2100:rem new value to decimal
+4165 if out=-1 then goto 4100
 4170 poke da,out
 4200 da=da+1
 4210 goto 4100
 4999 return
+5000 rem goto (sys) command
+5010 input "$addr";in$:gosub 2100
+5020 sys out
+5030 return
 10000 rem show current disk error
 10010 rem use when you see green blinking light on drive
 10020 open 15,8,15
