@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#
+#  icp - Copy a C64 BASIC program from a disk image to/from a text file
+#
+#  Assumes you have the `c1541` and `tok64` programs in your path.
+#
+set -e -o pipefail
+
+die() { local errcode=$1; shift; echo 1>&2 "$@"; exit $errcode; }
+
+[[ $2 ]] || die 2 "Usage: $0 [dump|store] PROGNAME"
+
+basedir=$(cd "$(dirname $0)" && pwd -P)
+image="$basedir/ml-101.d64"
+tmpdir=$(mktemp -d ml101dump.XXXXX)
+trap "rm -rf $tmpdir" 0
+
+if [[ $1 = dump ]]; then
+    c1541 "$image" -read "$2" "$tmpdir/$2.prg"
+    ( cd "$tmpdir" && tok64 /totxt "$2.prg"; )
+    cp "$tmpdir/$2.txt" ./
+elif [[ $1 = store ]]; then
+    cp "$2" "$tmpdir/"
+    ( cd "$tmpdir" && tok64 /toprg "$2"; )
+    c1541 "$image" -write "$tmpdir/${2%.txt}.prg" "@0:${2%.txt}"
+else
+    die "Unknown command: $1. Use 'dump' or 'store'."
+fi
