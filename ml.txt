@@ -63,15 +63,18 @@
 2210 next t0
 2220 return
 3000 rem examine memory command
+3005 rem e*=temp vars
 3010 input "$addr";in$
 3020 gosub 2100
-3030 for i=out to out+8
-3040 in=peek(i)
+3025 el=16:rem length to dump
+3030 for ei=out to out+el-1
+3035 if ei>out and ei/8=int(ei/8) then print
+3040 in=peek(ei)
 3050 gosub 1100
 3055 print " ";
 3060 if len(out$)<2 then print "0";
 3070 print out$;
-3080 next i
+3080 next ei
 3090 print:return
 10000 rem show current disk error
 10010 rem use when you see green blinking light on drive
