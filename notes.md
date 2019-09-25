@@ -24,7 +24,8 @@ BASIC.
 So we can work in hex, and get the computer to do conversions for us
 when we need to convert, I've writen a little BASIC program, "Machine
 Language Assistant." This is on disk image [`ml-101.d64`](ml-101.d64):
-`load "ml",8`.
+`load "ml assistant",8`. The source code is also available as text
+in [`ml assistant.txt`](ml\ assistant.txt).
 
 ### $02
 
