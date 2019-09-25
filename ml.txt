@@ -1,7 +1,7 @@
 10 rem ml assistant by cjs 2019-09
 90 gosub 800
 100 rem command list
-110 cs$="9fedgpq?"
+110 cs$="9fedgzq?"
 120 print cs$+"{reverse on}>{reverse off} ";
 200 get c$
 210 if c$="" then goto 200
@@ -16,7 +16,7 @@
 320 if c$="e" then gosub 3000
 330 if c$="d" then gosub 4000
 340 if c$="g" then gosub 5000
-350 if c$="p" then print:gosub 10000
+350 if c$="z" then print:print  "  ";:gosub 10000
 360 if c$="q" then end
 370 if c$="?" then print:gosub 800
 399 goto 100
@@ -26,8 +26,8 @@
 830 print "  hex input requests marked with '$'."
 840 print "9) decimal-> hex    f) hex->decimal"
 850 print "e) examine 16 bytes d) deposit"
-860 print "g) goto (sys){space*7}p) print err status"
-870 print "q) quit{space*13}?) print this menu"
+860 print "g) goto (sys)       z) print err status"
+870 print "q) quit             ?) print this menu"
 899 return
 1000 rem decimal to hex command
 1010 print "dec";:input in
@@ -104,5 +104,5 @@
 10020 open 15,8,15
 10030 input# 15,en,en$,et,es
 10035 close 15
-10040 print "err";en;en$;"t/s";et;es
+10040 print "err";en;en$;"  t/s";et;es
 10060 return
