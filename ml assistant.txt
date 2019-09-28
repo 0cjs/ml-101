@@ -67,8 +67,8 @@
 3005 rem e*=temp vars
 3010 input "$addr";in$
 3020 gosub 2100
-3025 el=16:rem length to dump
-3030 for ei=out to out+el-1
+3025 es=16:rem length to dump (do not use el!)
+3030 for ei=out to out+es-1
 3035 if ei>out and ei/8=int(ei/8) then print
 3040 in=peek(ei)
 3050 gosub 1100
