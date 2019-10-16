@@ -37,12 +37,13 @@ Oddly enough, Commodore BASIC does use binary for `AND`, `OR`, etc.
 ### $03
 
 `$C000`-`$CFFF` is a nice unused place [in the address map][se-addr]
-to put programs and data. We'll use `$C000` for data and `$C1000` for
+to put programs and data. We'll use `$C000` for data and `$C100` for
 our programs.
 
 The `SYS` command in basic jumps to a machine language routine, just
 like the `JSR` (jump to subroutine) machine-language instruction does.
-If we examine `$C100` we see it contains `$00`, a `BRK` instruction.
+If we examine `$C100` we see it contains `$00`, a `BRK` instruction
+(on emulators; real hardware is likely to contain `$FF`).
 We can G)OTO it and we get a soft reset; that's how C64 BASIC works.
 If we convert it to decimal we can confirm that `SYS 49408` does the
 same thing.
@@ -93,6 +94,7 @@ The [screen memory][c64w-screen] starts at `$0400`. At 40 char/line,
 12 lines would be 480 bytes, convert to hex and add to the screen base
 location: `$400 + $1E0 = $5E0`:
 
+    XXX add two NOPs here
     C100 AD E0 05           LDA $05E0
     C103 09 80              ORA #$80    ; set high bit
     C105 8D E1 05           STA $05E1   ; store next door
